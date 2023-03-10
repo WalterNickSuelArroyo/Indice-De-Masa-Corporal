@@ -1,0 +1,36 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:11-jdk
+
+    steps:
+      - checkout
+
+      # Configuración de Gradle
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            - v1-dependencies-
+
+      - run: gradle dependencies
+
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle" }}
+
+      # Compilación y pruebas
+      - run: ./gradlew build
+
+      # Ejecución de pruebas
+      - run: ./gradlew test
+
+      # Despliegue
+      - run:
+          name: Despliegue en servidor de pruebas
+          command: |
+            # Configurar servidor de pruebas
+            ssh user@server "cd /path/to/app && git pull origin main && ./gradlew build && ./gradlew run"
+          when: on_success
