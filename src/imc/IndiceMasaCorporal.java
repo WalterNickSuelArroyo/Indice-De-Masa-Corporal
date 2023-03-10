@@ -154,7 +154,7 @@ public class IndiceMasaCorporal extends javax.swing.JFrame {
         
         double imc = peso / Math.pow(talla, 2);
         
-        IndiceMasaCorporal.etiquetaImc.setText("Señor(a) "+nombre+" su IMC es: "+imc);
+        IndiceMasaCorporal.etiquetaImc.setText("Buenos dias Señor(a) "+nombre+" su IMC es: "+imc);
         
         if (imc < 18.5) {
             IndiceMasaCorporal.etiquetaClasificacion.setText("Su Clasificacion es: Peso inferior al normal ");
